@@ -2,14 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 
+
 # Random initialization of centroids with inputs x(iris dataset) and K(number of clusters)
 # and returns the initial centroid values.
 def initialize_centroids(x, K, seed=None):
-    raise NotImplementedError
+    rng = np.random.default_rng(seed)
+    n = x.shape[0]
+    return x[rng.choice(n, size=K, replace=False)]
 
 
-
-# squared Euclidean Distance calculation with inputs a and b 
+# squared Euclidean Distance calculation with inputs a and b
 def calculate_distances(a, b):
     raise NotImplementedError
 
@@ -19,8 +21,7 @@ def assign(x, c):
     raise NotImplementedError
 
 
-
-#Update and move centroids with inputs x(iris dataset), y(cluster label) and K(number of clusters) 
+# Update and move centroids with inputs x(iris dataset), y(cluster label) and K(number of clusters)
 # and returns the updated centroids
 def move_centroids(x, y, K, seed=None):
     raise NotImplementedError
@@ -49,7 +50,6 @@ def show_iter(x, c, y, it, show_n=8):
     print(y[:m])
     print("centroids")
     print(c)
-
 
 
 # K-Means algorithm function with maximum iteration set to 100, tolerance limit to 1e-6 and show_steps set to 2 and show_n set to 8
@@ -85,6 +85,8 @@ def kmeans(x, K, max_iter=100, tol=1e-6, seed=None, show_steps=2, show_n=8):
     return c, y, cost_list
 
 # runing k-means multiple times with different random starting points and recording the best result.
+
+
 def best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8):
     best = None
 
@@ -137,4 +139,3 @@ plt.title("k-means convergence (best run)")
 plt.grid(True)
 plt.legend()
 plt.show()
-
