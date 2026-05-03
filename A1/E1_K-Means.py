@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 
 
-# Random initialization of centroids with inputs x(iris dataset) and K(number of clusters)
+# Random initialization of centroids with inputs
+# x(iris dataset) and K(number of clusters)
 # and returns the initial centroid values.
 def initialize_centroids(x, K, seed=None):
     rng = np.random.default_rng(seed)
@@ -13,27 +14,41 @@ def initialize_centroids(x, K, seed=None):
 
 # squared Euclidean Distance calculation with inputs a and b
 def calculate_distances(a, b):
-    raise NotImplementedError
+    size = len(a)
+    c = a - b
+    temp = 0
+    for i in range(size):
+        temp += c[i] ** 2
+    return temp
 
 
-# Assigning the values to clusters with inputs x(Iris datapoints) and c(centroids) and returns the best cluster label
+# Assigning the values to clusters with inputs
+# x(Iris datapoints) and c(centroids) and returns the best cluster label
 def assign(x, c):
-    raise NotImplementedError
+    y = np.empty(x.shape[0], dtype=int)
+    for i in range(len(x)):
+        dists = [calculate_distances(x[i], cj) for cj in c]
+        print(dists)
+        y[i] = int(np.argmin(dists))
+    return y
 
 
-# Update and move centroids with inputs x(iris dataset), y(cluster label) and K(number of clusters)
+# Update and move centroids with inputs
+# x(iris dataset), y(cluster label) and K(number of clusters)
 # and returns the updated centroids
 def move_centroids(x, y, K, seed=None):
-    raise NotImplementedError
+    return
 
 
-# Cost function with input x(Iris Dataset), c(centroids) and y(cluster label) and returns the cost value
+# Cost function with input
+# x(Iris Dataset), c(centroids) and y(cluster label) and returns the cost value
 def cost(x, c, y):
-    raise NotImplementedError
+    return
 
 
-# # Function to print the number of interation, Euclidean distance between points, cluster labels and centroids  with inputs
-# it(number of iteration) and show_n(number of points to be printed with default set as 8)
+# Function to print the number of interation, Euclidean distance between
+# points, cluster labels and centroids  with inputs it(number of iteration)
+# and show_n(number of points to be printed with default set as 8)
 def show_iter(x, c, y, it, show_n=8):
     m = min(show_n, x.shape[0])
     K = c.shape[0]
@@ -52,7 +67,8 @@ def show_iter(x, c, y, it, show_n=8):
     print(c)
 
 
-# K-Means algorithm function with maximum iteration set to 100, tolerance limit to 1e-6 and show_steps set to 2 and show_n set to 8
+# K-Means algorithm function with maximum iteration set to 100,
+# tolerance limit to 1e-6 and show_steps set to 2 and show_n set to 8
 def kmeans(x, K, max_iter=100, tol=1e-6, seed=None, show_steps=2, show_n=8):
     np.set_printoptions(precision=3, suppress=True)
 
@@ -84,15 +100,21 @@ def kmeans(x, K, max_iter=100, tol=1e-6, seed=None, show_steps=2, show_n=8):
 
     return c, y, cost_list
 
-# runing k-means multiple times with different random starting points and recording the best result.
 
-
+# runing k-means multiple times with different random starting points
+# and recording the best result.
 def best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8):
     best = None
 
     for seed in range(runs):
         c, y, cost_list = kmeans(
-            x, K, max_iter=max_iter, tol=tol, seed=seed, show_steps=show_steps, show_n=show_n
+            x,
+            K,
+            max_iter=max_iter,
+            tol=tol,
+            seed=seed,
+            show_steps=show_steps,
+            show_n=show_n,
         )
         final_j = cost_list[-1]
 
@@ -103,39 +125,44 @@ def best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8):
                 "final_j": final_j,
                 "c": c,
                 "y": y,
-                "cost_list": cost_list
+                "cost_list": cost_list,
             }
 
     return best
 
 
 # dataset
-data = load_iris()
-x = data.data
+if __name__ == "__main__":
+    data = load_iris()
+    x = data.data
 
-# Number of clusters
-K = 3
+    # test block
+    print(assign(x, initialize_centroids(x, 3, 0)))
+    # test block end
 
-best = best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8)
+    # Number of clusters
+    K = 3
 
-print("")
-print("best labels:", best["y"])
-print("iterations:", best["iters"])
-print("final cost:", float(best["final_j"]))
-print("centroids:")
-print(best["c"])
-
-plt.figure(figsize=(6, 4))
-
-x_iter = np.arange(1, len(best["cost_list"]) + 1)
-y_cost = np.array(best["cost_list"])
-
-
-plt.plot(x_iter, y_cost, "o")
-
-plt.xlabel("iteration")
-plt.ylabel("cost")
-plt.title("k-means convergence (best run)")
-plt.grid(True)
-plt.legend()
-plt.show()
+    # best = best_run(x, K, runs=10, max_iter=100,
+    #                 tol=1e-6, show_steps=2, show_n=8)
+    #
+    # print("")
+    # print("best labels:", best["y"])
+    # print("iterations:", best["iters"])
+    # print("final cost:", float(best["final_j"]))
+    # print("centroids:")
+    # print(best["c"])
+    #
+    # plt.figure(figsize=(6, 4))
+    #
+    # x_iter = np.arange(1, len(best["cost_list"]) + 1)
+    # y_cost = np.array(best["cost_list"])
+    #
+    # plt.plot(x_iter, y_cost, "o")
+    #
+    # plt.xlabel("iteration")
+    # plt.ylabel("cost")
+    # plt.title("k-means convergence (best run)")
+    # plt.grid(True)
+    # plt.legend()
+    # plt.show()
