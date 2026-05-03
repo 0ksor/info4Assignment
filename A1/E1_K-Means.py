@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 
 
-# Random initialization of centroids with inputs x(iris dataset) and K(number of clusters)
+# Random initialization of centroids with inputs
+# x(iris dataset) and K(number of clusters)
 # and returns the initial centroid values.
 def initialize_centroids(x, K, seed=None):
     rng = np.random.default_rng(seed)
@@ -21,7 +22,8 @@ def calculate_distances(a, b):
     return temp
 
 
-# Assigning the values to clusters with inputs x(Iris datapoints) and c(centroids) and returns the best cluster label
+# Assigning the values to clusters with inputs
+# x(Iris datapoints) and c(centroids) and returns the best cluster label
 def assign(x, c):
     y = np.empty(x.shape[0], dtype=int)
     for i in range(len(x)):
@@ -31,19 +33,23 @@ def assign(x, c):
     return y
 
 
-# Update and move centroids with inputs x(iris dataset), y(cluster label) and K(number of clusters)
+# Update and move centroids with inputs
+# x(iris dataset), y(cluster label) and K(number of clusters)
 # and returns the updated centroids
 def move_centroids(x, y, K, seed=None):
     raise NotImplementedError
 
 
-# Cost function with input x(Iris Dataset), c(centroids) and y(cluster label) and returns the cost value
+# Cost function with input
+# x(Iris Dataset), c(centroids) and y(cluster label) and returns the cost value
 def cost(x, c, y):
     raise NotImplementedError
 
 
-# # Function to print the number of interation, Euclidean distance between points, cluster labels and centroids  with inputs
-# it(number of iteration) and show_n(number of points to be printed with default set as 8)
+# Function to print the number of interation,
+# Euclidean distance between points, cluster labels and centroids  with inputs
+# it(number of iteration) and
+# show_n(number of points to be printed with default set as 8)
 def show_iter(x, c, y, it, show_n=8):
     m = min(show_n, x.shape[0])
     K = c.shape[0]
@@ -62,7 +68,8 @@ def show_iter(x, c, y, it, show_n=8):
     print(c)
 
 
-# K-Means algorithm function with maximum iteration set to 100, tolerance limit to 1e-6 and show_steps set to 2 and show_n set to 8
+# K-Means algorithm function with maximum iteration set to 100, tolerance limit
+# to 1e-6 and show_steps set to 2 and show_n set to 8
 def kmeans(x, K, max_iter=100, tol=1e-6, seed=None, show_steps=2, show_n=8):
     np.set_printoptions(precision=3, suppress=True)
 
@@ -95,9 +102,8 @@ def kmeans(x, K, max_iter=100, tol=1e-6, seed=None, show_steps=2, show_n=8):
     return c, y, cost_list
 
 
-# runing k-means multiple times with different random starting points and recording the best result.
-
-
+# runing k-means multiple times with different random starting points
+# and recording the best result.
 def best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8):
     best = None
 
