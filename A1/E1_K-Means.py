@@ -23,7 +23,12 @@ def calculate_distances(a, b):
 
 # Assigning the values to clusters with inputs x(Iris datapoints) and c(centroids) and returns the best cluster label
 def assign(x, c):
-    raise NotImplementedError
+    y = np.empty(x.shape[0], dtype=int)
+    for i in range(len(x)):
+        dists = [calculate_distances(x[i], cj) for cj in c]
+        print(dists)
+        y[i] = int(np.argmin(dists))
+    return y
 
 
 # Update and move centroids with inputs x(iris dataset), y(cluster label) and K(number of clusters)
