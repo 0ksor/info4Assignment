@@ -51,7 +51,11 @@ def move_centroids(x, y, K, seed=None):
 # Cost function with input
 # x(Iris Dataset), c(centroids) and y(cluster label) and returns the cost value
 def cost(x, c, y):
-    raise NotImplementedError
+    total_cost = 0
+    centroids_for_points = c[y]
+    for i in range(len(x)):
+        total_cost += calculate_distances(x[i], centroids_for_points[i])
+    return total_cost
 
 
 # Function to print the number of interation,
