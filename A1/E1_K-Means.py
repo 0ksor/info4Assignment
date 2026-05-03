@@ -37,7 +37,15 @@ def assign(x, c):
 # x(iris dataset), y(cluster label) and K(number of clusters)
 # and returns the updated centroids
 def move_centroids(x, y, K, seed=None):
-    raise NotImplementedError
+    _, dim = x.shape
+    new_centroids = np.zeros((K, dim), dtype=float)
+    for i in range(K):
+        assigned_values = x[y == i]
+        if assigned_values.size == 0:
+            new_centroids[i] = initialize_centroids(x, 1, seed)[0]
+        else:
+            new_centroids[i] = np.mean(assigned_values, axis=0)
+    return new_centroids
 
 
 # Cost function with input
@@ -154,7 +162,7 @@ x_iter = np.arange(1, len(best["cost_list"]) + 1)
 y_cost = np.array(best["cost_list"])
 
 
-plt.plot(x_iter, y_cost, "o")
+plt.plot(x_iter, y_cost, "o", label="cost")
 
 plt.xlabel("iteration")
 plt.ylabel("cost")
