@@ -13,7 +13,12 @@ def initialize_centroids(x, K, seed=None):
 
 # squared Euclidean Distance calculation with inputs a and b
 def calculate_distances(a, b):
-    raise NotImplementedError
+    size = len(a)
+    c = a - b
+    temp = 0
+    for i in range(size):
+        temp += c[i] ** 2
+    return temp
 
 
 # Assigning the values to clusters with inputs x(Iris datapoints) and c(centroids) and returns the best cluster label
@@ -84,6 +89,7 @@ def kmeans(x, K, max_iter=100, tol=1e-6, seed=None, show_steps=2, show_n=8):
 
     return c, y, cost_list
 
+
 # runing k-means multiple times with different random starting points and recording the best result.
 
 
@@ -92,7 +98,13 @@ def best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8):
 
     for seed in range(runs):
         c, y, cost_list = kmeans(
-            x, K, max_iter=max_iter, tol=tol, seed=seed, show_steps=show_steps, show_n=show_n
+            x,
+            K,
+            max_iter=max_iter,
+            tol=tol,
+            seed=seed,
+            show_steps=show_steps,
+            show_n=show_n,
         )
         final_j = cost_list[-1]
 
@@ -103,7 +115,7 @@ def best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8):
                 "final_j": final_j,
                 "c": c,
                 "y": y,
-                "cost_list": cost_list
+                "cost_list": cost_list,
             }
 
     return best
