@@ -146,12 +146,13 @@ def best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8):
 
 # dataset
 data = load_iris()
-x = data.data
+x = data.data  # type: ignore[attr-defined]
 
 # Number of clusters
 K = 3
 
-best = best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8)
+best: dict = best_run(x, K, runs=10, max_iter=100, tol=1e-6,
+                      show_steps=2, show_n=8)  # type: ignore[attr-defined]
 
 print("")
 print("best labels:", best["y"])
