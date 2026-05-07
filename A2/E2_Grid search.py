@@ -30,7 +30,7 @@ def split_train_test(x, y, test_ratio=0.25, seed=123):
 
 # Hypothesis function with input parameters theta0, theta1 and x and returns the predicted y values.
 def hypothesis(theta0, theta1, x):
-    raise NotImplementedError
+    return theta0 + theta1 * x
 
 
 # Cost function between y values and yhat(predicted) values
