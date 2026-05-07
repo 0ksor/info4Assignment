@@ -35,7 +35,7 @@ def hypothesis(theta0, theta1, x):
 
 # Cost function between y values and yhat(predicted) values
 def cost(y, yhat):
-    raise NotImplementedError
+    return np.mean((yhat - y) ** 2) / 2
 
 
 # Grid search function with input parameters x, y, theta0_values and theta1_values
