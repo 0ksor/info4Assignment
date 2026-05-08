@@ -41,7 +41,12 @@ def cost(y, yhat):
 # Grid search function with input parameters x, y, theta0_values and theta1_values
 # returns the best_theta0, best_theta1 and cost_grid(2D array of all combination of cost values)
 def grid_search(x, y, theta0_values, theta1_values):
-    cost(y, hypothesis(theta0_values, theta1_values, x))
+    costs = np.empty((len(theta0_values), len(theta1_values)), dtype=np.float64)
+    for i, theta0_value in enumerate(theta0_values):
+        for j, theta1_value in enumerate(theta1_values):
+            costs[i, j] = cost(y, hypothesis(theta0_value, theta1_value, x))
+    best_i, best_j = np.unravel_index(np.argmin(costs), costs.shape)
+    return theta0_values[best_i], theta1_values[best_j], costs
 
 
 # Plotting function to visualize the training and testing data points
