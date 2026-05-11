@@ -55,7 +55,7 @@ def cost(x, c, y):
     centroids_for_points = c[y]
     for i in range(len(x)):
         total_cost += calculate_distances(x[i], centroids_for_points[i])
-    return total_cost
+    return total_cost / (2 * len(x))
 
 
 # Function to print the number of interation,
@@ -151,8 +151,7 @@ x = data.data  # type: ignore[attr-defined]
 # Number of clusters
 K = 3
 
-best: dict = best_run(x, K, runs=10, max_iter=100, tol=1e-6,
-                      show_steps=2, show_n=8)  # type: ignore[attr-defined]
+best: dict = best_run(x, K, runs=10, max_iter=100, tol=1e-6, show_steps=2, show_n=8)  # type: ignore[attr-defined]
 
 print("")
 print("best labels:", best["y"])
