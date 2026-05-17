@@ -27,24 +27,63 @@ def add_bias(x):
 # predicting values based on hypothesis function
 # t shows linear regression parameters
 def predicted_values(x, t):
-    raise NotImplementedError
+    return x @ t
 
 
 # Calculate cost value
 def cost(x, y, t):
-    raise NotImplementedError
+    y_pred = predicted_values(x, t)
+    return np.sum((y_pred - y) ** 2) / (2 * len(y))
 
 
 # Fit Batch Gradient Descent
 # return cost history and theta
 def fit_bgd(x, y, lr, steps, seed=0):
-    raise NotImplementedError
+    np.random.seed(seed)
+    m, n = x.shape
+    t = np.zeros(n)
+    cost_history = []
+
+    for _ in range(steps):
+        y_pred = predicted_values(x, t)
+        error = y_pred - y
+
+        gradient = (1 / m) * (x.T @ error)
+
+        t = t - lr * gradient
+
+        cost_history.append(cost(x, y, t))
+
+    return t, cost_history
 
 
 # Fit Stochastic Gradient Descent
 # return cost history and theta
 def fit_sgd(x, y, lr, epochs, seed=0):
-    raise NotImplementedError
+    np.random.seed(seed)
+    m, n = x.shape
+    t = np.zeros(n)
+    cost_history = []
+
+    for _ in range(epochs):
+        indices = np.arange(m)
+        np.random.shuffle(indices)
+        x_shuffled = x[indices]
+        y_shuffled = y[indices]
+
+        for i in range(m):
+            xi = x_shuffled[i]
+            yi = y_shuffled[i]
+            y_pred = xi @ t
+            error = y_pred - yi
+
+            gradient = xi * error
+
+            t = t - lr * gradient
+
+        cost_history.append(cost(x, y, t))
+
+    return t, cost_history
 
 
 # creating a rotating 3D animation of the updated regression plane
@@ -159,13 +198,14 @@ while i < len(bgd_lr_list):
     bgd_test_list.append(test_cost)
     bgd_t_list.append(t)
     i = i + 1
+del i
 
 print("BGD test Cost")
 i = 0
 while i < len(bgd_lr_used):
     print(bgd_lr_used[i], float(bgd_test_list[i]))
     i = i + 1
-
+del i
 
 # Apply SGD on test dataset
 sgd_hist_list = []
@@ -267,4 +307,3 @@ plot_3d_slice_gif(
     names[f2],
     out_gif="real_estate_3d_rotation.gif",
 )
-
